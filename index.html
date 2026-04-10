@@ -17,9 +17,19 @@
         <div style="text-align: center;">
           <h2 style="color: #CE1126;">جاري تحميل خارطة المجد...</h2>
           <p style="color: #666;">إذا استغرق الأمر وقتاً طويلاً، يرجى التحقق من اتصال الإنترنت أو تحديث الصفحة.</p>
+          <div id="error-display" style="margin-top: 20px; color: red; font-size: 12px; font-family: monospace; white-space: pre-wrap; text-align: left; max-width: 80vw; margin-left: auto; margin-right: auto;"></div>
         </div>
       </div>
     </div>
+    <script>
+      window.onerror = function(msg, url, lineNo, columnNo, error) {
+        var display = document.getElementById('error-display');
+        if (display) {
+          display.innerHTML = 'Error: ' + msg + '\nLine: ' + lineNo + '\nColumn: ' + columnNo;
+        }
+        return false;
+      };
+    </script>
     <script type="module" src="/src/main.tsx"></script>
     <script>
       if ('serviceWorker' in navigator) {

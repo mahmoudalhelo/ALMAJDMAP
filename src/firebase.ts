@@ -59,8 +59,8 @@ export function handleFirestoreError(error: unknown, operationType: OperationTyp
   throw new Error(JSON.stringify(errInfo));
 }
 
-// Test connection
-async function testConnection() {
+// Test connection (moved inside a function to be called safely)
+export async function testFirebaseConnection() {
   try {
     await getDocFromServer(doc(db, 'test', 'connection'));
   } catch (error) {
@@ -69,7 +69,6 @@ async function testConnection() {
     }
   }
 }
-testConnection();
 
 export { 
   onAuthStateChanged, signInWithPopup, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteUser,
