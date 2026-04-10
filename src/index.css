@@ -47,11 +47,17 @@ body {
 }
 
 .map-game-style .leaflet-tile-pane {
-  filter: saturate(1.6) contrast(1.15) brightness(1.05) sepia(0.1);
+  filter: saturate(1.8) contrast(1.2) brightness(1.1) sepia(0.05);
+}
+
+/* Masking labels of surrounding countries by overlaying a semi-transparent layer outside Jordan */
+.jordan-mask {
+  pointer-events: none;
+  z-index: 400; /* Above tiles, below markers */
 }
 
 .map-game-style .leaflet-container {
-  background: #b3d1ff;
+  background: #a5c9ff;
 }
 
 .map-game-style::after {
@@ -59,7 +65,7 @@ body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(circle, transparent 60%, rgba(0,0,0,0.15) 100%);
+  background: radial-gradient(circle, transparent 50%, rgba(0,0,0,0.2) 100%);
   z-index: 80;
 }
 

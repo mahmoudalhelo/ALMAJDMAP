@@ -141,13 +141,13 @@ export default function App() {
       placement: 'left',
     },
     {
-      target: '.tour-instructions',
-      content: 'إذا احتجت للمساعدة، يمكنك دائماً مراجعة التعليمات من هنا.',
+      target: '.tour-leaderboard',
+      content: 'شاهد ترتيبك بين أبطال المجد الآخرين.',
       placement: 'bottom',
     },
     {
-      target: '.tour-leaderboard',
-      content: 'شاهد ترتيبك بين أبطال المجد الآخرين.',
+      target: '.tour-instructions',
+      content: 'إذا احتجت للمساعدة، يمكنك دائماً مراجعة التعليمات من هنا.',
       placement: 'bottom',
     }
   ];
@@ -155,10 +155,15 @@ export default function App() {
   useEffect(() => {
     testFirebaseConnection();
     const hasSeenTour = localStorage.getItem('hasSeenOnboarding');
-    if (!hasSeenTour && user) {
-      setRunTour(true);
+    // Only run the tour if the user is logged in AND their profile data is loaded
+    if (!hasSeenTour && user && profile) {
+      // Small delay to ensure all DOM elements are rendered
+      const timer = setTimeout(() => {
+        setRunTour(true);
+      }, 1000);
+      return () => clearTimeout(timer);
     }
-  }, [user]);
+  }, [user, profile]);
 
   const handleTourFinish = (data: any) => {
     const { status } = data;
@@ -642,6 +647,7 @@ export default function App() {
           zIndex: 1000,
           showProgress: true,
         }}
+        disableBeacon={true}
       />
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-[100] bg-jordan-black/95 backdrop-blur-2xl text-white shadow-2xl border-b border-jordan-green/40">
@@ -764,20 +770,20 @@ export default function App() {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           />
           
-          {/* Mask to hide everything outside Jordan */}
+          {/* Transparent mask to blur/fade labels outside Jordan */}
           <Polygon 
             positions={[
               [[-90, -180], [-90, 180], [90, 180], [90, -180]], // World bounds
               JORDAN_BORDER // Jordan hole
             ]}
             pathOptions={{
-              fillColor: '#f3f4f6',
-              fillOpacity: 1.0,
-              color: '#CE1126',
-              weight: 2,
-              dashArray: '5, 10'
+              fillColor: '#ffffff',
+              fillOpacity: 0.4, // High enough to fade labels, low enough to see geography
+              color: 'transparent',
+              weight: 0
             }}
             interactive={false}
+            className="jordan-mask"
           />
           
           <MapControls />
@@ -808,17 +814,17 @@ export default function App() {
 
             const markerIcon = L.divIcon({
               html: `<div class="relative ${isNearby ? 'marker-proximity' : ''}">
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 21C16 17.5 19 14.4183 19 10.5C19 6.63401 15.866 3.5 12 3.5C8.13401 3.5 5 6.63401 5 10.5C5 14.4183 8 17.5 12 21Z" fill="${markerColor}" stroke="white" stroke-width="2"/>
-                  <circle cx="12" cy="10.5" r="2.5" fill="white"/>
+                <svg width="42" height="42" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));">
+                  <path d="M12 21.7C16.5 17.8 20 14.5 20 10.5C20 6.1 16.4 2.5 12 2.5C7.6 2.5 4 6.1 4 10.5C4 14.5 7.5 17.8 12 21.7Z" fill="${markerColor}" stroke="white" stroke-width="2.5"/>
+                  <circle cx="12" cy="10.5" r="3.5" fill="white"/>
                 </svg>
-                ${isNearby ? '<div class="absolute -inset-2 bg-jordan-red/20 rounded-full animate-ping"></div>' : ''}
-                ${!isNearby && isWithin1km ? '<div class="absolute -inset-4 border-2 border-jordan-green/20 rounded-full animate-pulse"></div>' : ''}
+                ${isNearby ? '<div class="absolute -inset-2 bg-jordan-red/30 rounded-full animate-ping"></div>' : ''}
+                ${!isNearby && isWithin1km ? '<div class="absolute -inset-4 border-2 border-jordan-green/30 rounded-full animate-pulse"></div>' : ''}
               </div>`,
               className: '',
-              iconSize: [36, 36],
-              iconAnchor: [18, 36],
-              popupAnchor: [0, -36]
+              iconSize: [42, 42],
+              iconAnchor: [21, 42],
+              popupAnchor: [0, -42]
             });
 
             return (
