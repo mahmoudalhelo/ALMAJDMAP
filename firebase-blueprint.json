@@ -1,0 +1,40 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores user points and achievements",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "username": { "type": "string", "description": "Display name" },
+        "points": { "type": "number", "description": "Total points earned" },
+        "school": { "type": "string", "description": "User's school name" },
+        "achievements": { "type": "array", "description": "List of earned badges" },
+        "visitedLocations": { "type": "array", "description": "IDs of locations already visited for points" },
+        "solvedChallenges": { "type": "array", "description": "IDs of challenges already solved correctly" },
+        "lastVisit": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "username", "points"]
+    },
+    "LeaderboardEntry": {
+      "title": "Leaderboard Entry",
+      "description": "Public view of top players",
+      "type": "object",
+      "properties": {
+        "username": { "type": "string" },
+        "points": { "type": "number" },
+        "school": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Private user data"
+    },
+    "/leaderboard/{userId}": {
+      "schema": "LeaderboardEntry",
+      "description": "Public leaderboard data"
+    }
+  }
+}

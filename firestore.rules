@@ -1,0 +1,44 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    // Collection: users
+    // Fields: uid, username, points, achievements, lastVisit
+    //
+    // Collection: leaderboard
+    // Fields: username, points
+    // ===============================================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidUser(data) {
+      return data.username is string && data.username.size() > 0 && data.username.size() < 50 &&
+             data.points is number && data.points >= 0 &&
+             (!('school' in data) || (data.school is string && data.school.size() < 100)) &&
+             (!('visitedLocations' in data) || data.visitedLocations is list) &&
+             (!('solvedChallenges' in data) || data.solvedChallenges is list);
+    }
+
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId) && isValidUser(request.resource.data);
+    }
+
+    match /leaderboard/{userId} {
+      allow read: if true;
+      allow write: if isOwner(userId) && 
+                   request.resource.data.username is string &&
+                   request.resource.data.points is number &&
+                   (!('school' in request.resource.data) || request.resource.data.school is string);
+    }
+  }
+}
