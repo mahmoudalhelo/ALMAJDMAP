@@ -532,10 +532,10 @@ export default function App() {
           animate={{ opacity: 1, scale: 1 }}
           className="bg-white/95 backdrop-blur-xl w-full max-w-md rounded-3xl shadow-2xl overflow-hidden relative z-10 border border-white/50"
         >
-          <div className="relative w-full h-52 overflow-hidden bg-jordan-black flex items-center justify-center p-4">
+          <div className="relative w-full h-52 overflow-hidden bg-white flex items-center justify-center">
             <img 
-              src="/icon.png" 
-              className="h-full object-contain" 
+              src="https://almajdmap.rojnda.com/almajdmap.png" 
+              className="w-full h-full object-cover" 
               alt="خارطة المجد"
               referrerPolicy="no-referrer"
             />
