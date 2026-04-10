@@ -4,9 +4,21 @@ import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, qu
 import firebaseConfig from '../firebase-applet-config.json';
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+let app;
+try {
+  if (!firebaseConfig || !firebaseConfig.apiKey) {
+    throw new Error('Firebase configuration is missing or invalid. Please check firebase-applet-config.json');
+  }
+  app = initializeApp(firebaseConfig);
+} catch (error) {
+  console.error('Firebase initialization failed:', error);
+  // Create a dummy app to prevent the rest of the code from crashing immediately
+  // though it will likely fail later when using services.
+  app = { name: '[DEFAULT]' } as any; 
+}
+
 export const auth = getAuth(app);
-export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId || '(default)');
 export const googleProvider = new GoogleAuthProvider();
 
 // Error handling for Firestore

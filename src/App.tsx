@@ -78,6 +78,39 @@ function MapControls() {
 }
 
 export default function App() {
+  const [hasError, setHasError] = useState(false);
+  const [errorDetails, setErrorDetails] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleError = (event: ErrorEvent) => {
+      setHasError(true);
+      setErrorDetails(event.message);
+    };
+    window.addEventListener('error', handleError);
+    return () => window.removeEventListener('error', handleError);
+  }, []);
+
+  if (hasError) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen p-6 text-center bg-gray-50" dir="rtl">
+        <AlertTriangle className="w-16 h-16 text-red-500 mb-4" />
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">عذراً، حدث خطأ ما</h1>
+        <p className="text-gray-600 mb-6">فشل تحميل التطبيق بشكل صحيح. يرجى المحاولة مرة أخرى.</p>
+        {errorDetails && (
+          <div className="bg-white p-4 rounded-xl border border-gray-200 text-xs font-mono text-left w-full max-w-md overflow-auto mb-6">
+            {errorDetails}
+          </div>
+        )}
+        <button 
+          onClick={() => window.location.reload()}
+          className="bg-jordan-red text-white px-8 py-3 rounded-xl font-bold shadow-lg"
+        >
+          إعادة تحميل الصفحة
+        </button>
+      </div>
+    );
+  }
+
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<any>(null);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
