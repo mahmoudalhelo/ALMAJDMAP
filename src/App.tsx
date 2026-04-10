@@ -8,7 +8,9 @@ import { MapContainer, TileLayer, Marker, Popup, useMap, Circle, Polygon } from 
 import L from 'leaflet';
 import { motion, AnimatePresence } from 'motion/react';
 import { MapPin, Navigation, Trophy, Info, X, CheckCircle2, Award, LogOut, User as UserIconLucide, ListOrdered, Loader2, AlertTriangle, LogIn, Settings, School, Save, Edit2, HelpCircle, Map as MapIcon, Target, ExternalLink, Volume2, VolumeX, Trash2, ShieldCheck, FileText, Mail } from 'lucide-react';
-import { Joyride, Step } from 'react-joyride';
+import * as JoyrideModule from 'react-joyride';
+const Joyride = (JoyrideModule as any).default || (JoyrideModule as any).Joyride || JoyrideModule;
+import { Step } from 'react-joyride';
 import { PrivacyPolicy, TermsOfService } from './components/LegalModals';
 import { HISTORICAL_LOCATIONS, CHALLENGES, Location as LocationType, SOUNDS, DEFAULT_PROFILE_PICTURE } from './constants';
 import { calculateDistance, playSound } from './utils';

@@ -13,22 +13,47 @@
   </head>
   <body>
     <div id="root">
-      <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; direction: rtl;">
-        <div style="text-align: center;">
-          <h2 style="color: #CE1126;">جاري تحميل خارطة المجد...</h2>
-          <p style="color: #666;">إذا استغرق الأمر وقتاً طويلاً، يرجى التحقق من اتصال الإنترنت أو تحديث الصفحة.</p>
-          <div id="error-display" style="margin-top: 20px; color: red; font-size: 12px; font-family: monospace; white-space: pre-wrap; text-align: left; max-width: 80vw; margin-left: auto; margin-right: auto;"></div>
+      <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; direction: rtl; background-color: #f8fafc;">
+        <div style="text-align: center; padding: 20px;">
+          <div style="margin-bottom: 20px;">
+            <img src="https://almajdmap.rojnda.com/almjd.png" style="width: 80px; height: 80px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" alt="Logo">
+          </div>
+          <h2 style="color: #CE1126; margin-bottom: 10px;">جاري تحميل خارطة المجد...</h2>
+          <p style="color: #64748b; font-size: 14px;">يرجى الانتظار قليلاً بينما نجهز لك الخريطة التاريخية.</p>
+          
+          <div id="debug-info" style="margin-top: 40px; display: none;">
+            <p style="color: #94a3b8; font-size: 12px; margin-bottom: 10px;">إذا استغرق التحميل أكثر من 10 ثوانٍ، قد تكون هناك مشكلة في الاتصال.</p>
+            <button onclick="window.location.reload()" style="background: #CE1126; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: bold;">إعادة تحميل الصفحة</button>
+            <div id="error-display" style="margin-top: 20px; color: #ef4444; font-size: 11px; font-family: monospace; white-space: pre-wrap; text-align: left; max-width: 90vw; margin-left: auto; margin-right: auto; background: #fee2e2; padding: 10px; border-radius: 8px; border: 1px solid #fecaca; display: none;"></div>
+          </div>
         </div>
       </div>
     </div>
     <script>
+      // Show debug info after 5 seconds
+      setTimeout(function() {
+        var debug = document.getElementById('debug-info');
+        if (debug) debug.style.display = 'block';
+      }, 5000);
+
       window.onerror = function(msg, url, lineNo, columnNo, error) {
+        console.error('Global Error:', msg, url, lineNo);
         var display = document.getElementById('error-display');
+        var debug = document.getElementById('debug-info');
         if (display) {
-          display.innerHTML = 'Error: ' + msg + '\nLine: ' + lineNo + '\nColumn: ' + columnNo;
+          display.style.display = 'block';
+          display.innerHTML = '<b>خطأ في التحميل:</b>\n' + msg + '\nالموقع: ' + url + '\nالسطر: ' + lineNo;
         }
+        if (debug) debug.style.display = 'block';
         return false;
       };
+      
+      window.addEventListener('unhandledrejection', function(event) {
+        console.error('Unhandled Promise Rejection:', event.reason);
+      });
+    </script>
+    <script type="module">
+      console.log("Application script starting...");
     </script>
     <script type="module" src="/src/main.tsx"></script>
     <script>
