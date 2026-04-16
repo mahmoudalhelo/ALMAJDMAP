@@ -176,12 +176,6 @@ export default function App() {
   useEffect(() => {
     const handleInteraction = () => {
       setHasInteracted(true);
-      // Preload sounds
-      Object.values(SOUNDS).forEach(url => {
-        const audio = new Audio();
-        audio.src = url;
-        audio.preload = 'auto';
-      });
       window.removeEventListener('click', handleInteraction);
       window.removeEventListener('touchstart', handleInteraction);
     };
@@ -196,8 +190,9 @@ export default function App() {
   useEffect(() => {
     let ambientAudio: HTMLAudioElement | null = null;
     if (user && soundEnabled && hasInteracted) {
-      ambientAudio = playSound(SOUNDS.AMBIENT, 0.09);
-      ambientAudio.loop = true;
+      // Use a reliable fallback if the primary ambient music fails
+      const fallbackAmbient = 'https://actions.google.com/sounds/v1/ambiences/morning_birds.ogg';
+      ambientAudio = playSound(SOUNDS.AMBIENT, 0.09, fallbackAmbient, true);
     }
     return () => {
       if (ambientAudio) {

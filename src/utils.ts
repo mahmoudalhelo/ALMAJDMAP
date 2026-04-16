@@ -16,23 +16,25 @@ export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2
   return R * c;
 }
 
-export function playSound(url: string, volume: number = 0.5) {
+export function playSound(url: string, volume: number = 0.5, fallbackUrl?: string, loop: boolean = false) {
   const audio = new Audio();
-  
-  // Handle loading errors
-  audio.onerror = () => {
-    console.warn("Failed to load audio source:", url);
+  audio.volume = volume;
+  audio.loop = loop;
+
+  const play = (src: string, isFallback: boolean = false) => {
+    audio.src = src;
+    audio.play().catch(err => {
+      // Ignore errors from user interaction requirements
+      if (err.name === 'NotAllowedError' || err.name === 'AbortError') return;
+      
+      console.warn(`${isFallback ? 'Fallback' : 'Primary'} audio failed:`, src);
+      
+      if (!isFallback && fallbackUrl) {
+        play(fallbackUrl, true);
+      }
+    });
   };
 
-  audio.src = url;
-  audio.volume = volume;
-  audio.preload = 'auto';
-  
-  audio.play().catch(err => {
-    // Only log if it's not a user interaction error or a loading error we already handled
-    if (err.name !== 'NotAllowedError' && err.name !== 'AbortError') {
-      console.error("Audio playback failed for URL:", url, err);
-    }
-  });
+  play(url);
   return audio;
 }

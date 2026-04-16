@@ -487,11 +487,11 @@ export const CHALLENGES: Record<string, Question> = {
 };
 
 export const SOUNDS = {
-  CLICK: 'https://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3',
-  SUCCESS: 'https://codeskulptor-demos.commondatastorage.googleapis.com/descent/gotitem.mp3',
-  FAILURE: 'https://codeskulptor-demos.commondatastorage.googleapis.com/descent/Crumble%20Sound.mp3',
+  CLICK: 'https://actions.google.com/sounds/v1/alarms/beep_short.ogg',
+  SUCCESS: 'https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg',
+  FAILURE: 'https://actions.google.com/sounds/v1/alarms/mechanical_clock_ring.ogg',
   AMBIENT: 'https://almajdmap.rojnda.com/almajd.mp3',
-  PROXIMITY: 'https://codeskulptor-demos.commondatastorage.googleapis.com/descent/spring.mp3'
+  PROXIMITY: 'https://actions.google.com/sounds/v1/alarms/beep_short.ogg'
 };
 
 export const DEFAULT_PROFILE_PICTURE = 'https://almajdmap.rojnda.com/almjd.png';
