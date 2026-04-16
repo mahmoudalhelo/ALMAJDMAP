@@ -23,12 +23,25 @@
   "related_applications": [],
   "icons": [
     {
-      "src": "https://almajdmap.rojnda.com/almjd.png",
-      "sizes": "515x485",
+      "src": "https://images.weserv.nl/?url=https://almajdmap.rojnda.com/almjd.png&w=192&h=192&fit=contain&bg=white",
+      "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "https://images.weserv.nl/?url=https://almajdmap.rojnda.com/almjd.png&w=512&h=512&fit=contain&bg=white",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://images.weserv.nl/?url=https://almajdmap.rojnda.com/almjd.png&w=512&h=512&fit=contain&bg=white",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
+  "iarc_rating_id": "",
   "screenshots": [
     {
       "src": "https://almajdmap.rojnda.com/almajdmap.png",
@@ -38,11 +51,11 @@
       "label": "خارطة المجد - الأردن"
     },
     {
-      "src": "https://almajdmap.rojnda.com/almjd.png",
-      "sizes": "515x485",
+      "src": "https://images.weserv.nl/?url=https://almajdmap.rojnda.com/almajdmap.png&w=720&h=1280&fit=cover",
+      "sizes": "720x1280",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "شعار خارطة المجد"
+      "label": "خارطة المجد - نسخة الهاتف"
     }
   ]
 }
