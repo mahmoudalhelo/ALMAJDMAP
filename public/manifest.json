@@ -2,24 +2,47 @@
   "name": "خارطة المجد",
   "short_name": "خارطة المجد",
   "description": "تطبيق تفاعلي لاستكشاف المواقع التاريخية في الأردن مع تحديات تعليمية تعتمد على الموقع الجغرافي.",
+  "id": "com.almajdmap.app",
   "start_url": "/",
+  "scope": "/",
   "display": "fullscreen",
-  "display_override": ["fullscreen", "standalone", "minimal-ui"],
+  "display_override": [
+    "fullscreen",
+    "standalone",
+    "minimal-ui"
+  ],
   "background_color": "#000000",
   "theme_color": "#CE1126",
   "orientation": "portrait",
+  "categories": [
+    "education",
+    "history",
+    "travel"
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [],
   "icons": [
     {
       "src": "https://almajdmap.rojnda.com/almjd.png",
-      "sizes": "192x192",
+      "sizes": "515x485",
       "type": "image/png",
       "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "https://almajdmap.rojnda.com/almajdmap.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "خارطة المجد - الأردن"
     },
     {
       "src": "https://almajdmap.rojnda.com/almjd.png",
-      "sizes": "512x512",
+      "sizes": "515x485",
       "type": "image/png",
-      "purpose": "any"
+      "form_factor": "narrow",
+      "label": "شعار خارطة المجد"
     }
   ]
 }
