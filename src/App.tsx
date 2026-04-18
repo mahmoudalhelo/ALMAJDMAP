@@ -718,14 +718,6 @@ export default function App() {
               {soundEnabled ? <Volume2 className="w-5 h-5 md:w-6 md:h-6 text-gray-300 group-hover:text-white" /> : <VolumeX className="w-5 h-5 md:w-6 md:h-6 text-red-400" />}
               <span className="text-[9px] md:text-[11px] font-medium text-gray-400 group-hover:text-white">{soundEnabled ? 'كتم' : 'تشغيل'}</span>
             </button>
-
-            <button 
-              onClick={handleLogout}
-              className="flex flex-col items-center gap-1 p-1.5 md:p-2 hover:bg-red-500/20 rounded-xl transition-all min-w-[50px] md:min-w-[60px] group"
-            >
-              <LogOut className="w-5 h-5 md:w-6 md:h-6 text-red-400 group-hover:text-red-300 transition-colors" />
-              <span className="text-[9px] md:text-[11px] font-medium text-red-400 group-hover:text-red-300">خروج</span>
-            </button>
           </nav>
         </div>
       </header>
@@ -1136,12 +1128,20 @@ export default function App() {
                   <span>حفظ التعديلات</span>
                 </button>
 
-                <div className="pt-4 border-t border-gray-100">
+                <div className="pt-4 border-t border-gray-100 space-y-3">
+                  <button 
+                    onClick={handleLogout}
+                    className="w-full flex items-center justify-center gap-2 p-3 text-red-600 hover:bg-red-50 rounded-xl transition-colors text-sm font-bold"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>تسجيل الخروج</span>
+                  </button>
+
                   <button 
                     onClick={() => setShowDeleteConfirm(true)}
-                    className="w-full flex items-center justify-center gap-2 p-3 text-red-500 hover:bg-red-50 rounded-xl transition-colors text-sm font-bold"
+                    className="w-full flex items-center justify-center gap-2 p-2 text-gray-400 hover:text-red-500 transition-colors text-[10px] font-bold"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-3 h-3" />
                     حذف الحساب والبيانات
                   </button>
                 </div>
