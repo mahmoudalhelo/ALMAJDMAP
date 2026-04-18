@@ -12,6 +12,7 @@ import * as JoyrideModule from 'react-joyride';
 const Joyride = (JoyrideModule as any).default || (JoyrideModule as any).Joyride || JoyrideModule;
 import { Step } from 'react-joyride';
 import { PrivacyPolicy, TermsOfService } from './components/LegalModals';
+import { DeleteAccountPage } from './components/DeleteAccountPage';
 import { HISTORICAL_LOCATIONS, CHALLENGES, Location as LocationType, SOUNDS, DEFAULT_PROFILE_PICTURE } from './constants';
 import { calculateDistance, playSound } from './utils';
 import { fetchWikiData, WikiData } from './services/wikiService';
@@ -99,6 +100,9 @@ export default function App() {
   const [loadingWiki, setLoadingWiki] = useState(false);
   const [leaderboard, setLeaderboard] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // Custom Routing for Delete Account Page (Google Play Compliance)
+  const isDeleteAccountPath = window.location.pathname === '/delete-account';
 
   // Profile Edit State
   const [editName, setEditName] = useState('');
@@ -493,6 +497,10 @@ export default function App() {
       }
     }
   };
+
+  if (isDeleteAccountPath) {
+    return <DeleteAccountPage />;
+  }
 
   if (loading) {
     return (
