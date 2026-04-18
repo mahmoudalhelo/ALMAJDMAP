@@ -31,25 +31,35 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch event - serve from cache or network
+// Fetch event - Network First then Cache for HTML, Cache first for others
 self.addEventListener('fetch', (event) => {
-  // Skip cross-origin requests (like Wikipedia API or Google Maps tiles)
-  // to avoid opaque response issues in basic cache strategy
+  // Skip cross-origin requests
   if (!event.request.url.startsWith(self.location.origin)) {
     return;
   }
 
+  // Handle HTML navigation: Network First
+  // This ensures users always get the latest version of the app index.html
+  // and prevents issues with cached HTML pointing to old hashed JS files.
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  // Others: Cache First
   event.respondWith(
     caches.match(event.request).then((response) => {
       return response || fetch(event.request).then((fetchResponse) => {
-        // Don't cache API calls or dynamic content here for now
         return fetchResponse;
       });
-    }).catch(() => {
-      // Fallback for offline if needed
-      if (event.request.mode === 'navigate') {
-        return caches.match('/index.html');
-      }
     })
   );
 });

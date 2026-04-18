@@ -22,19 +22,44 @@
           <p style="color: #64748b; font-size: 14px;">يرجى الانتظار قليلاً بينما نجهز لك الخريطة التاريخية.</p>
           
           <div id="debug-info" style="margin-top: 40px; display: none;">
-            <p style="color: #94a3b8; font-size: 12px; margin-bottom: 10px;">إذا استغرق التحميل أكثر من 10 ثوانٍ، قد تكون هناك مشكلة في الاتصال.</p>
-            <button onclick="window.location.reload()" style="background: #CE1126; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: bold;">إعادة تحميل الصفحة</button>
-            <div id="error-display" style="margin-top: 20px; color: #ef4444; font-size: 11px; font-family: monospace; white-space: pre-wrap; text-align: left; max-width: 90vw; margin-left: auto; margin-right: auto; background: #fee2e2; padding: 10px; border-radius: 8px; border: 1px solid #fecaca; display: none;"></div>
+            <p style="color: #94a3b8; font-size: 12px; margin-bottom: 20px;">إذا واجهت مشكلة في التحديث أو استغرق التحميل طويلاً، يمكنك استخدام خيار "الإصلاح السريع" أدناه.</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 12px; align-items: center;">
+              <button onclick="window.location.reload(true)" style="background: #CE1126; color: white; border: none; padding: 12px 24px; border-radius: 12px; cursor: pointer; font-weight: bold; width: 220px; box-shadow: 0 4px 12px rgba(206,17,38,0.2);">تحديث الصفحة</button>
+              
+              <button onclick="forceResetApp()" style="background: white; color: #64748b; border: 1px solid #e2e8f0; padding: 10px 20px; border-radius: 12px; cursor: pointer; font-size: 13px; width: 220px;">إصلاح مشكلة التحميل (بدون تسجيل خروج)</button>
+            </div>
+
+            <div id="error-display" style="margin-top: 30px; color: #ef4444; font-size: 11px; font-family: monospace; white-space: pre-wrap; text-align: left; max-width: 90vw; margin-left: auto; margin-right: auto; background: #fee2e2; padding: 10px; border-radius: 8px; border: 1px solid #fecaca; display: none;"></div>
           </div>
         </div>
       </div>
     </div>
     <script>
-      // Show debug info after 5 seconds
+      // Show debug info after 7 seconds
       setTimeout(function() {
         var debug = document.getElementById('debug-info');
         if (debug) debug.style.display = 'block';
-      }, 5000);
+      }, 7000);
+
+      // Force Reset Function: Clears SW and Cache but keeps LocalStorage/IndexedDB (Auth)
+      function forceResetApp() {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+              registration.unregister();
+            }
+          });
+        }
+        if ('caches' in window) {
+          caches.keys().then(function(names) {
+            for (let name of names) caches.delete(name);
+          });
+        }
+        setTimeout(function() {
+          window.location.reload(true);
+        }, 1000);
+      }
 
       window.onerror = function(msg, url, lineNo, columnNo, error) {
         console.error('Global Error:', msg, url, lineNo);
