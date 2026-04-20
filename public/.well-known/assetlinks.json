@@ -1,8 +1,16 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "com.almajdmap.app",
-    "sha256_cert_fingerprints": ["BE:F4:3A:61:55:3F:C2:F7:8D:CD:87:F2:3C:C1:CB:45:F3:0C:E3:F3:72:E0:C6:49:F8:5F:2E:AF:A0:10:F9:76"]
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.almajdmap.app",
+      "sha256_cert_fingerprints": [
+        "BE:F4:3A:61:55:3F:C2:F7:8D:CD:87:F2:3C:C1:CB:45:F3:0C:E3:F3:72:E0:C6:49:F8:5F:2E:AF:A0:10:F9:76",
+        "67:84:A0:C6:18:88:9B:D1:B7:8C:7A:1E:77:04:7E:93:72:BA:E1:4F:34:8B:11:7B:11:4A:1A:E6:9A:F8:35:8E"
+      ]
+    }
   }
-}]
+]
